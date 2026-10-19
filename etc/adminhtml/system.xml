@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+    Copyright © 2026 Roman Pasichnyk
+    SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="zero_bought_together" translate="label" type="text" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Bought Together</label>
+            <tab>zero</tab>
+            <resource>Zero_BoughtTogether::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bought Together</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <comment>"Often bought together" on the product page: this product with the ones orders pair it with, a total and one Add to Cart.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Heading</label>
+                </field>
+                <field id="count" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Products Shown</label>
+                    <comment>Besides this one; 1 to 4.</comment>
+                    <validate>validate-digits validate-digits-range digits-range-1-4</validate>
+                </field>
+                <field id="days" translate="label comment" type="text" sortOrder="40" showInDefault="1" canRestore="1">
+                    <label>Orders of the Last (Days)</label>
+                    <comment>How far back the nightly rebuild looks (bin/magento zero:bought-together:build).</comment>
+                    <validate>validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="min_orders" translate="label comment" type="text" sortOrder="50" showInDefault="1" canRestore="1">
+                    <label>Minimum Orders for a Pair</label>
+                    <comment>Two products count as bought together from this many orders holding both.</comment>
+                    <validate>validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="fill_related" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Fill With Related Products</label>
+                    <comment>When orders pair the product with fewer than shown, its related products (Catalog > Products > Related) fill the rest.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,65 @@
+<?php
+/**
+ * Copyright © 2026 Roman Pasichnyk
+ * SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+ *
+ * "Often bought together": this product and its picks in a row, a checkbox
+ * on each pick that goes into the cart as is (the others link to their
+ * page), the total and one Add to Cart. A change refetches the summary
+ * (Controller\Total\Index) with the form's values; the button posts them.
+ *
+ * @var \Zero\BoughtTogether\Block\BoughtTogether $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$picks = $block->picks();
+$product = $block->getProduct();
+if (!$picks || !$product) {
+    return;
+}
+$heading = $block->heading();
+$summary = $block->getChildBlock('summary');
+$summary?->setData('ids', $block->pickedIds());
+?>
+<section class="bought-together" aria-labelledby="bought-together-heading" data-bought-together>
+    <h2 class="bought-together-heading" id="bought-together-heading">
+        <?= $escaper->escapeHtml($heading['lead']) ?>
+        <?php if ($heading['accent'] !== '') : ?>
+            <em><?= $escaper->escapeHtml($heading['accent']) ?></em>
+        <?php endif; ?>
+    </h2>
+    <form class="bought-together-form" method="post" action="<?= $escaper->escapeUrl($block->addUrl()) ?>"
+          hx-get="<?= $escaper->escapeUrl($block->totalUrl()) ?>" hx-trigger="change"
+          hx-target="find .bought-together-summary" hx-swap="outerHTML">
+        <?= $block->getBlockHtml('formkey') ?>
+        <ol class="bought-together-items">
+            <li class="bought-together-item is-main">
+                <?php if ($block->canPick($product)) : ?>
+                    <input type="hidden" name="with[]" value="<?= (int) $product->getId() ?>">
+                <?php endif; ?>
+                <span class="bought-together-pick bought-together-eyebrow"><?= $escaper->escapeHtml(__('This item')) ?></span>
+                <span class="bought-together-photo"><?= $block->getImage($product, 'related_products_list')->toHtml() ?></span>
+                <span class="bought-together-name"><?= $escaper->escapeHtml($product->getName()) ?></span>
+                <?= /* @noEscape */ $block->getProductPrice($product) ?>
+            </li>
+            <?php foreach ($picks as $pick) : ?>
+                <?php $url = $block->getProductUrl($pick); ?>
+                <li class="bought-together-item">
+                    <?php if ($block->canPick($pick)) : ?>
+                        <label class="bought-together-pick">
+                            <input type="checkbox" class="checkbox checkbox-sm" name="with[]" value="<?= (int) $pick->getId() ?>" checked>
+                            <span><?= $escaper->escapeHtml(__('Add')) ?></span>
+                        </label>
+                    <?php else : ?>
+                        <a class="bought-together-pick bought-together-options" href="<?= $escaper->escapeUrl($url) ?>"><?= $escaper->escapeHtml(__('Choose options')) ?></a>
+                    <?php endif; ?>
+                    <a class="bought-together-photo" href="<?= $escaper->escapeUrl($url) ?>" tabindex="-1" aria-hidden="true">
+                        <?= $block->getImage($pick, 'related_products_list')->toHtml() ?>
+                    </a>
+                    <a class="bought-together-name" href="<?= $escaper->escapeUrl($url) ?>"><?= $escaper->escapeHtml($pick->getName()) ?></a>
+                    <?= /* @noEscape */ $block->getProductPrice($pick) ?>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+        <?= $summary ? $summary->toHtml() : '' ?>
+    </form>
+</section>

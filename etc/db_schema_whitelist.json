@@ -1,0 +1,15 @@
+{
+    "zero_bought_together": {
+        "column": {
+            "product_id": true,
+            "with_product_id": true,
+            "orders": true
+        },
+        "index": {
+            "ZERO_BOUGHT_TOGETHER_PRODUCT_ID_ORDERS": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+    Copyright © 2026 Roman Pasichnyk
+    SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="zero_bought_together" resource="default" engine="innodb" comment="Zero: products bought in the same orders">
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false" comment="Product"/>
+        <column xsi:type="int" name="with_product_id" unsigned="true" nullable="false" comment="Bought with"/>
+        <column xsi:type="int" name="orders" unsigned="true" nullable="false" default="0" comment="Orders holding both"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="product_id"/>
+            <column name="with_product_id"/>
+        </constraint>
+        <index referenceId="ZERO_BOUGHT_TOGETHER_PRODUCT_ID_ORDERS" indexType="btree">
+            <column name="product_id"/>
+            <column name="orders"/>
+        </index>
+    </table>
+</schema>

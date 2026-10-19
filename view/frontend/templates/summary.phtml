@@ -1,0 +1,26 @@
+<?php
+/**
+ * Copyright © 2026 Roman Pasichnyk
+ * SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+ *
+ * The total of the checked products and the button.
+ *
+ * @var \Zero\BoughtTogether\Block\Summary $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$count = $block->count();
+?>
+<div class="bought-together-summary">
+    <?php if ($count === 0) : ?>
+        <p class="bought-together-total"><span><?= $escaper->escapeHtml(__('Pick the items to add.')) ?></span></p>
+        <button type="submit" class="btn btn-neutral" disabled><?= $escaper->escapeHtml(__('Add to Cart')) ?></button>
+    <?php else : ?>
+        <p class="bought-together-total">
+            <span><?= $escaper->escapeHtml($count === 1 ? __('Total for 1 item') : __('Total for %1 items', $count)) ?></span>
+            <strong><?= $escaper->escapeHtml($block->total()) ?></strong>
+        </p>
+        <button type="submit" class="btn btn-neutral">
+            <?= $escaper->escapeHtml($count === 1 ? __('Add to Cart') : __('Add all %1 to Cart', $count)) ?>
+        </button>
+    <?php endif; ?>
+</div>

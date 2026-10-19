@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+    Copyright © 2026 Roman Pasichnyk
+    SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+
+    "Often bought together" under the gallery and the info column, before
+    the details.
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Zero\BoughtTogether\Block\BoughtTogether" name="zero.bought.together" after="product.info.main"
+                   template="Zero_BoughtTogether::bought-together.phtml" ifconfig="zero_bought_together/general/enabled">
+                <block class="Zero\BoughtTogether\Block\Summary" name="zero.bought.together.summary" as="summary"
+                       template="Zero_BoughtTogether::summary.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
