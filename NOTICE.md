@@ -1,4 +1,4 @@
-# fixstacks/module-zero-bought-together — licensing
+# zerofront/module-zero-bought-together — licensing
 
 Copyright © 2026 Roman Pasichnyk.
 
